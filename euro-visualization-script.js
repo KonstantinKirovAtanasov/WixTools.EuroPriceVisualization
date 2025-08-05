@@ -8,6 +8,7 @@ function convertPriceText(text) {
 
   let numberStr = null;
   if(match[0][0].match(DIGIT_REGEX)) numberStr = match[0][0];
+  if(match[0][1].match(DIGIT_REGEX)) numberStr = match[0][1];
   if(match[0][2].match(DIGIT_REGEX)) numberStr = match[0][2];
   if (!numberStr) return;
 
