@@ -145,7 +145,7 @@ function convertAllPrices() {
   convertThankYouPrices();
   if(!areHeavyItemsConverted){
     convertShipping();
-    convertSpecial();
+    convertFilter();
     areHeavyItemsConverted = true;
   }
 }
