@@ -5,7 +5,7 @@ const DIGIT_REGEX = /-?\d+(?:[.,]\d+)?/;
 function convertPriceText(text) {
   const match = [...text.matchAll(REGEX)];
   if (!match || match.length === 0) return;
-  
+
   const numberStr = match[1] || match[2]; 
   if (!numberStr) return;
 
@@ -142,7 +142,6 @@ function convertMembers() {
   ]);
 }
 // Convert all
-/*
 function convertAllPrices() {
   convertCategoryPrices();
   convertProductPagePrice();
@@ -151,7 +150,6 @@ function convertAllPrices() {
   convertCheckoutSummaryPrices();
   convertThankYouPrices();
 }
-*/
 
 window.addEventListener("load", () => {
   setTimeout(() => {
