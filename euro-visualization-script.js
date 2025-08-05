@@ -1,13 +1,16 @@
 const RATE = 1.95583;
 const REGEX = /(\d+(?:[.,]\d+)?)(?:\s*|&nbsp;|\u00A0)?(лв\.?|BGN)|(?:лв\.?|BGN)(?:\s*|&nbsp;|\u00A0)?(\d+(?:[.,]\d+)?)/g;
 
-function convertPriceText(bgnText) {
-  const cleaned = bgnText.match(REGEX);
-  if(!cleaned || cleaned.lenght == 0) return;
+function convertPriceText(text) {
+  const match = [...text.matchAll(REGEX)];
+  if (!match || match.length === 0) return;
+  const numberStr = match[0][1] || match[0][3];
+  if (!numberStr) return;
 
-  const bgn = parseFloat(cleaned[0]);
-  if (isNaN(bgn)) return null;
-  return (bgn / RATE).toFixed(2);
+  const number = parseFloat(numberStr.replace(',', '.'));
+  if (isNaN(number)) return;
+
+  return (number / RATE).toFixed(2).replace('.', ',');
 }
 
 function appendEUR(el, eur, contextColor, contextFontSize) {
