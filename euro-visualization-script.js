@@ -159,12 +159,8 @@ window.addEventListener("load", () => {
   setTimeout(() => {
     const interval = setInterval(() => {
       convertAllPrices();
-    }, 100);
-
-    setTimeout(() => {
-      clearInterval(interval);
-    }, 3000);
-  }, 150);
+    }, 200);}
+    , 150);
 });
 
 /* 
