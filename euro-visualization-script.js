@@ -1,10 +1,12 @@
 const RATE = 1.95583;
 const REGEX = /(?:лв\.?|BGN)(?:\s*|&nbsp;|\u00A0)?(\d+(?:[.,]\d+)?)|(\d+(?:[.,]\d+)?)(?:\s*|&nbsp;|\u00A0)?(лв\.?|BGN)/g;
+const DIGIT_REGEX = /-?\d+(?:[.,]\d+)?/;
 
 function convertPriceText(text) {
   const match = [...text.matchAll(REGEX)];
   if (!match || match.length === 0) return;
-  const numberStr = match[0][1] || match[0][3];
+  
+  const numberStr = match[1] || match[2]; 
   if (!numberStr) return;
 
   const number = parseFloat(numberStr.replace(',', '.'));
@@ -140,6 +142,7 @@ function convertMembers() {
   ]);
 }
 // Convert all
+/*
 function convertAllPrices() {
   convertCategoryPrices();
   convertProductPagePrice();
@@ -148,6 +151,7 @@ function convertAllPrices() {
   convertCheckoutSummaryPrices();
   convertThankYouPrices();
 }
+*/
 
 window.addEventListener("load", () => {
   setTimeout(() => {
@@ -156,6 +160,7 @@ window.addEventListener("load", () => {
   }, 750);
 });
   
+/* 
 window.addEventListener("load", () => {
   setTimeout(() => {
     convertShipping();
@@ -163,3 +168,4 @@ window.addEventListener("load", () => {
     setInterval(convertAllPrices, 2000);
   }, 3000);
 });
+*/
