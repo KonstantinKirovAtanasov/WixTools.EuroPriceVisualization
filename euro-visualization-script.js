@@ -4,7 +4,7 @@ const REGEX = /(\d+(?:[.,]\d+)?)&nbsp;лв\.|лв(\d+(?:[.,]\d+)?)/g;
 function convertPriceText(bgnText) {
   const cleaned = bgnText.match(REGEX);
   if(!cleaned || cleaned.lenght == 0) return;
-  
+
   const bgn = parseFloat(cleaned[0]);
   if (isNaN(bgn)) return null;
   return (bgn / RATE).toFixed(2);
@@ -12,11 +12,12 @@ function convertPriceText(bgnText) {
 
 function convertSpecial(el) {
   const match = el.innerHTML.match(REGEX);
+  if(!match || match.lenght == 0) return;
+
   match.forEach(matchElement => {
     el.innerHTML.replace(matchElement, `${matchElement} / ${convertAllPrices(matchElement)}`)
   });
 }
-
 
 function appendEUR(el, eur, contextColor, contextFontSize) {
   if (el.querySelector(".eur-price")) return;
@@ -39,7 +40,7 @@ function convertWithInnerText(selectors) {
       if (!el.innerText.includes("лв")) return;
       if (el.innerText.includes("€")) return;
       const eur = convertPriceText(el.innerText, );
-      if (eur) el.innerText += ` (${eur} €)`;
+      if (eur) el.innerText += `/ ${eur} €`;
     });
   });
 }
