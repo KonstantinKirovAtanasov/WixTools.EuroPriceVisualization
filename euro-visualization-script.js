@@ -1,6 +1,6 @@
 const RATE_EUR = 1.95583;
 const REGEX = /(?:лв\.?|BGN)(?:\s*|&nbsp;|\u00A0)?(\d+(?:[.,]\d+)?)|(\d+(?:[.,]\d+)?)(?:\s*|&nbsp;|\u00A0)?(лв\.?|BGN)/g;
-const DIGIT_REGEX = /-?\d+(?:[.,]\d+)?/;
+const DIGIT_REGEX = /^\d+(?:[.,]\d+)?$/;
 
 function convertPriceText(text) {
   const match = [...text.matchAll(REGEX)];
