@@ -124,6 +124,18 @@ function convertShipping() {
   ]);
 }
 
+// Convert members page
+function convertMembers() {
+  convertWithInnerText([
+    '[data-hook="subtotal"]',
+    '[data-hook="shipping"]',
+    '[data-hook="tax-0"]',
+    '[data-hook="total"]',
+    '[data-hook="product-total"]',
+    '[data-hook="product-price"]',
+    '[data-hook="value"]'
+  ]);
+}
 // Convert all
 function convertAllPrices() {
   convertCategoryPrices();
