@@ -7,9 +7,9 @@ function convertPriceText(text) {
   if (!match || match.length === 0) return;
 
   let numberStr = null;
-  if(match[0][0].match(DIGIT_REGEX)) numberStr = match[0][0];
-  if(match[0][1].match(DIGIT_REGEX)) numberStr = match[0][1];
-  if(match[0][2].match(DIGIT_REGEX)) numberStr = match[0][2];
+  if(match[0][0] && match[0][0].match(DIGIT_REGEX)) numberStr = match[0][0];
+  if(match[0][1] && match[0][1].match(DIGIT_REGEX)) numberStr = match[0][1];
+  if(match[0][2] && match[0][2].match(DIGIT_REGEX)) numberStr = match[0][2];
   if (!numberStr) return;
 
   const number = parseFloat(numberStr.replace(',', '.'));
