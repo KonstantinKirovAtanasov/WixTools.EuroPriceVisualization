@@ -10,15 +10,6 @@ function convertPriceText(bgnText) {
   return (bgn / RATE).toFixed(2);
 }
 
-function convertSpecial(el) {
-  const match = el.innerHTML.match(REGEX);
-  if(!match || match.lenght == 0) return;
-
-  match.forEach(matchElement => {
-    el.innerHTML.replace(matchElement, `${matchElement} / ${convertAllPrices(matchElement)}`)
-  });
-}
-
 function appendEUR(el, eur, contextColor, contextFontSize) {
   if (el.querySelector(".eur-price")) return;
   const eurSpan = document.createElement("span");
@@ -121,14 +112,14 @@ function convertThankYouPrices() {
 
 // Filter
 function convertFilter() {
-  convertSpecial([
+  convertWithAppending([
     '[data-hook="filter-type-PRICE"]'
   ]);
 }
 
 // Shipping
 function convertShipping() {
-  convertSpecial([
+  convertWithAppending([
     '[data-hook="dropdown-option"]'
   ]);
 }
