@@ -1,5 +1,5 @@
 const RATE = 1.95583;
-const REGEX = /(\d+(?:[.,]\d+)?)(?:\s*|&nbsp;|\u00A0)?(лв\.?|BGN)|(?:лв\.?|BGN)(?:\s*|&nbsp;|\u00A0)?(\d+(?:[.,]\d+)?)/g;
+const REGEX = /(?:лв\.?|BGN)(?:\s*|&nbsp;|\u00A0)?(\d+(?:[.,]\d+)?)|(\d+(?:[.,]\d+)?)(?:\s*|&nbsp;|\u00A0)?(лв\.?|BGN)/g;
 
 function convertPriceText(text) {
   const match = [...text.matchAll(REGEX)];
