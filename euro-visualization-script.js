@@ -1,5 +1,5 @@
 const RATE = 1.95583;
-const REGEX = /(\d+(?:[.,]\d+)?)(?:\s*|\u00A0*)?(лв\.?|BGN)|(?:лв\.?|BGN)(?:\s*|\u00A0*)(\d+(?:[.,]\d+)?)/g;
+const REGEX = /(\d+(?:[.,]\d+)?)(?:\s*|&nbsp;|\u00A0)?(лв\.?|BGN)|(?:лв\.?|BGN)(?:\s*|&nbsp;|\u00A0)?(\d+(?:[.,]\d+)?)/g;
 
 function convertPriceText(bgnText) {
   const cleaned = bgnText.match(REGEX);
@@ -125,8 +125,6 @@ function convertShipping() {
 }
 
 // Convert all
-
-let areHeavyItemsConverted = false;
 function convertAllPrices() {
   convertCategoryPrices();
   convertProductPagePrice();
@@ -134,11 +132,6 @@ function convertAllPrices() {
   convertSideCartPrices();
   convertCheckoutSummaryPrices();
   convertThankYouPrices();
-  if(!areHeavyItemsConverted){
-    convertShipping();
-    convertFilter();
-    areHeavyItemsConverted = true;
-  }
 }
 
 window.addEventListener("load", () => {
@@ -146,4 +139,12 @@ window.addEventListener("load", () => {
     convertAllPrices();
     setInterval(convertAllPrices, 900);
   }, 750);
+});
+  
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    convertShipping();
+    convertFilter();
+    setInterval(convertAllPrices, 2000);
+  }, 3000);
 });
