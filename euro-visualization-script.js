@@ -153,13 +153,19 @@ function convertAllPrices() {
   convertThankYouPrices();
 }
 
+
 window.addEventListener("load", () => {
   setTimeout(() => {
-    convertAllPrices();
-    setInterval(convertAllPrices, 900);
-  }, 750);
+    const interval = setInterval(() => {
+      convertAllPrices();
+    }, 100);
+
+    setTimeout(() => {
+      clearInterval(interval);
+    }, 3000);
+  }, 150);
 });
-  
+
 /* 
 window.addEventListener("load", () => {
   setTimeout(() => {
