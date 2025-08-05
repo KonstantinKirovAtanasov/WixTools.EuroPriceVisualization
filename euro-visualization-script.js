@@ -2,8 +2,10 @@ const RATE = 1.95583;
 const REGEX = /(\d+(?:[.,]\d+)?)&nbsp;лв\.|лв(\d+(?:[.,]\d+)?)/g;
 
 function convertPriceText(bgnText) {
-  const match = bgnText.match(REGEX);
-  const bgn = parseFloat(cleaned);
+  const cleaned = bgnText.match(REGEX);
+  if(!cleaned || cleaned.lenght == 0) return;
+  
+  const bgn = parseFloat(cleaned[0]);
   if (isNaN(bgn)) return null;
   return (bgn / RATE).toFixed(2);
 }
