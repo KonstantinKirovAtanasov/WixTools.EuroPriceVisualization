@@ -1,20 +1,26 @@
 const RATE = 1.95583;
+const REGEX = /(\d+(?:[.,]\d+)?)&nbsp;лв\.|лв(\d+(?:[.,]\d+)?)/g;
 
 function convertPriceText(bgnText) {
-  const cleaned = bgnText
-    .replace(/\./g, "")
-    .replace(",", ".")
-    .replace(/[^\d.]/g, "");
+  const match = bgnText.match(REGEX);
   const bgn = parseFloat(cleaned);
   if (isNaN(bgn)) return null;
   return (bgn / RATE).toFixed(2);
 }
 
+function convertSpecial(el) {
+  const match = el.innerHTML.match(REGEX);
+  match.forEach(matchElement => {
+    el.innerHTML.replace(matchElement, `${matchElement} / ${convertAllPrices(matchElement)}`)
+  });
+}
+
+
 function appendEUR(el, eur, contextColor, contextFontSize) {
   if (el.querySelector(".eur-price")) return;
   const eurSpan = document.createElement("span");
   eurSpan.className = "eur-price";
-  eurSpan.textContent = ` (${eur} €)`;
+  eurSpan.textContent = `/ ${eur} €`;
   eurSpan.style.cssText = `
     font-size: ${contextFontSize|| "1em"};
     color: ${contextColor || "FFFFFF"};
@@ -110,7 +116,23 @@ function convertThankYouPrices() {
   ]);
 }
 
+// Filter
+function convertFilter() {
+  convertSpecial([
+    '[data-hook="filter-type-PRICE"]'
+  ]);
+}
+
+// Shipping
+function convertShipping() {
+  convertSpecial([
+    '[data-hook="dropdown-option"]'
+  ]);
+}
+
 // Convert all
+
+let areHeavyItemsConverted = false;
 function convertAllPrices() {
   convertCategoryPrices();
   convertProductPagePrice();
@@ -118,10 +140,14 @@ function convertAllPrices() {
   convertSideCartPrices();
   convertCheckoutSummaryPrices();
   convertThankYouPrices();
+  if(!areHeavyItemsConverted){
+    convertShipping();
+    convertSpecial();
+    areHeavyItemsConverted = true;
+  }
 }
 
 window.addEventListener("load", () => {
-  console.log("🧪 Multi-site EUR converter active");
   setTimeout(() => {
     convertAllPrices();
     setInterval(convertAllPrices, 900);
