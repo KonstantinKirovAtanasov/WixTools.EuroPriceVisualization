@@ -6,7 +6,7 @@ function convertPriceText(text) {
   const match = [...text.matchAll(REGEX)];
   if (!match || match.length === 0) return;
 
-  const numberStr = match[1] || match[2]; 
+  const numberStr = match[0][0] || match[0][2]; 
   if (!numberStr) return;
 
   const number = parseFloat(numberStr.replace(',', '.'));
