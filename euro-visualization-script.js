@@ -137,6 +137,10 @@ function convertFilter() {
   convertWithInnerText([
     '[data-hook="filter-type-PRICE "] span'
   ]);
+  const forChange = document.querySelectorAll('[data-hook="filter-type-PRICE "] span');
+  forChange.forEach((el) => {
+    el.style.fontSIze = '17px';
+  }
 }
 
 // Shipping
