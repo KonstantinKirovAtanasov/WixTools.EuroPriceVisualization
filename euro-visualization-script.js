@@ -139,8 +139,8 @@ function convertFilter() {
   ]);
   const forChange = document.querySelectorAll('[data-hook="filter-type-PRICE "] span');
   forChange.forEach((el) => {
-    el.style.fontSIze = '17px';
-  }
+    el.style.fontSize = '17px';
+  })
 }
 
 // Shipping
