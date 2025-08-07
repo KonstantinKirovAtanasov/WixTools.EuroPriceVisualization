@@ -1,1 +1,137 @@
-<
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Euro Price Visualization Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .font_8,
+        .font_6 {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .wixui-rich-text__text {
+            margin: 5px 0;
+        }
+
+        .OoDGxd {
+            font-weight: bold;
+            color: #2c5aa0;
+        }
+
+        .cW7fG4 {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+
+        .cfpn1d {
+            color: #27ae60;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Euro Price Visualization Test</h1>
+
+        <div class="test-item">
+            <p class="font_8 wixui-rich-text__text" data-hook="formatted-primary-price">7&nbsp;893,00 лв.</p>
+        </div>
+
+        <div class="test-item">
+            <p class="font_8 wixui-rich-text__text" data-hook="formatted-primary-price">7 893,00 лв.</p>
+        </div>
+
+        <div class="test-item">
+            <p class="font_8 wixui-rich-text__text" data-hook="formatted-primary-price">лв7,893.00</p>
+        </div>
+
+        <div class="test-item">
+            <div class="OoDGxd" data-hook="challenge-pricing">BGN&nbsp;15,786.00</div>
+        </div>
+
+        <div class="test-item">
+            <span class="cW7fG4" data-hook="formatted-primary-price">лв7,893.00</span>
+        </div>
+
+        <div class="test-item">
+            <span class="cW7fG4" data-hook="formatted-primary-price">7&nbsp;893,00 лв</span>
+        </div>
+
+        <div class="test-item">
+            <p class="font_6 wixui-rich-text__text" data-hook="formatted-primary-price">81,00 лв.</p>
+        </div>
+
+        <div class="test-item">
+            <span data-hook="product-item-price-to-pay" class="cfpn1d" data-wix-price="3,20 лв.">3,20 лв.</span>
+        </div>
+        <div class="test-item">
+            <span data-hook="product-item-price-to-pay" class="cfpn1d" data-wix-price="лв3.40">3.40лв</span>
+        </div>
+        <div class="test-item">
+            <span data-hook="product-item-price-to-pay" class="cfpn1d" data-wix-price="лв3.40">лв3.40</span>
+        </div>
+        <div class="test-item">
+            <div class="ExzvSw" data-hook="CartItemDataHook.totalPrice"
+                data-wix-item-total-price="CartItemDataHook.totalPrice">
+                <div class="OoDGxd">BGN&nbsp;3.00</div>
+            </div>
+        </div>
+        <div class="test-item">
+            <div class="ExzvSw" data-hook="CartItemDataHook.totalPrice"
+                data-wix-item-total-price="CartItemDataHook.totalPrice">
+                <div class="OoDGxd">BGN 3.00</div>
+            </div>
+        </div>
+        <div class="test-item">
+            <div class="ExzvSw" data-hook="CartItemDataHook.totalPrice"
+                data-wix-item-total-price="CartItemDataHook.totalPrice">
+                <div class="OoDGxd">3.00BGN</div>
+            </div>
+        </div>
+        <div class="test-item">
+            <div class="ExzvSw" data-hook="CartItemDataHook.totalPrice"
+                data-wix-item-total-price="CartItemDataHook.totalPrice">
+                <div class="OoDGxd">BGN3.00</div>
+            </div>
+        </div>
+        <div class="test-item">
+            <div class="ExzvSw" data-hook="CartItemDataHook.totalPrice"
+                data-wix-item-total-price="CartItemDataHook.totalPrice">
+                <div class="OoDGxd">3.00&nbsp;BGN</div>
+            </div>
+        </div>
+        <div class="test-item">
+            <p class="font_8 wixui-rich-text__text" data-hook="formatted-primary-price">лв6,764.00</p>
+        </div>
+    </div>
+
+    <!-- Include the Euro visualization script -->
+    <script src="euro-visualization-script.js"></script>
+</body>
+
+</html>

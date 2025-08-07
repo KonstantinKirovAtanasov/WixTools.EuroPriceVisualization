@@ -1,5 +1,5 @@
 const RATE_EUR = 1.95583;
-const REGEX = /(?:лв\.?|BGN)(?:\s*|&nbsp;|\u00A0)?(\d+(?:[.,]\d+)?)|(\d+(?:[.,]\d+)?)(?:\s*|&nbsp;|\u00A0)?(лв\.?|BGN)/g;
+const REGEX = /(?:лв\.?|BGN)(?:\s*|&nbsp;|\u00A0)?(\d+(?:[.,]\d{0,2})?)|(\d+(?:[.,]\d{0,2})?)|(\d(?: ['\u00A0,&nbsp;]\d)*(?:[.,]\d{2}))(?:\s*|&nbsp;|\u00A0)?(лв\.?|BGN)/g;
 const DIGIT_REGEX = /^\d+(?:[.,]\d+)?$/;
 
 function convertPriceText(text) {
@@ -7,9 +7,16 @@ function convertPriceText(text) {
   if (!match || match.length === 0) return;
 
   let numberStr = null;
-  if(match[0][0] && match[0][0].match(DIGIT_REGEX)) numberStr = match[0][0];
-  if(match[0][1] && match[0][1].match(DIGIT_REGEX)) numberStr = match[0][1];
-  if(match[0][2] && match[0][2].match(DIGIT_REGEX)) numberStr = match[0][2];
+  if (match.length === 1) {
+    if (match[0][0] && match[0][0].match(DIGIT_REGEX)) numberStr = match[0][0];
+    if (match[0][1] && match[0][1].match(DIGIT_REGEX)) numberStr = match[0][1];
+    if (match[0][2] && match[0][2].match(DIGIT_REGEX)) numberStr = match[0][2];
+  } else {
+    if (match[0][0] && match[0][0].match(DIGIT_REGEX) && match[1][0] && match[1][0].match(DIGIT_REGEX))
+      numberStr = match[0][0] + match[1][0];
+    else if (match[0][1] && match[1][0] && match[1][0].match(DIGIT_REGEX))
+      numberStr = match[0][1].replace(',', '').replace(' ', '') + match[1][0];
+  }
   if (!numberStr) return;
 
   const number = parseFloat(numberStr.replace(',', '.'));
@@ -36,9 +43,9 @@ function convertWithInnerText(selectors) {
   selectors.forEach((selector) => {
     const elements = document.querySelectorAll(selector);
     elements.forEach((el) => {
-      if (!el.innerText.includes("лв")) return;
+      if (NotIncludesLeva(el)) return;
       if (el.innerText.includes("€")) return;
-      const eur = convertPriceText(el.innerText, );
+      const eur = convertPriceText(el.innerText);
       if (eur) el.innerText += `/ ${eur} €`;
     });
   });
@@ -48,12 +55,18 @@ function convertWithAppending(selectors) {
   selectors.forEach((selector) => {
     const elements = document.querySelectorAll(selector);
     elements.forEach((el) => {
-      if (!el.innerText.includes("лв")) return;
+      if (NotIncludesLeva(el)) return;
       if (el.querySelector(".eur-price")) return;
       const eur = convertPriceText(el.innerText);
       if (eur) appendEUR(el, eur, el.style.color, el.style.fontSize);
     });
   });
+}
+
+function NotIncludesLeva(el) {
+  return !el.innerText.includes("лв")
+    && !el.innerText.startsWith("BGN")
+    && !el.innerText.endsWith("BGN")
 }
 
 // Category and product listings
@@ -69,8 +82,8 @@ function convertCategoryPrices() {
 function convertProductPagePrice() {
   const richTextDivs = document.querySelectorAll('div[data-testid="richTextElement"]');
   richTextDivs.forEach((div) => {
-    const p = div.querySelector("p, h2, span");
-    if (!p || !p.innerText.includes("лв") || p.querySelector(".eur-price")) return;
+    const p = div.querySelector("p, h2, span, div");
+    if (!p || NotIncludesLeva(p) || p.querySelector(".eur-price")) return;
     const eur = convertPriceText(p.innerText);
     if (eur) appendEUR(p, eur);
   });
@@ -114,7 +127,8 @@ function convertThankYouPrices() {
   convertWithInnerText([
     '[data-hook="ProductLineItemDataHook.totalPrice"]',
     '[data-hook="subtotal-row-value"]',
-    '[data-hook="total-row-value"]'
+    '[data-hook="total-row-value"]',
+    '[data-hook="challenge-pricing"]'
   ]);
 }
 
@@ -159,8 +173,8 @@ window.addEventListener("load", () => {
   setTimeout(() => {
     const interval = setInterval(() => {
       convertAllPrices();
-    }, 200);}
-    , 150);
+    }, 200);
+  }, 150);
 });
 
 /* 
