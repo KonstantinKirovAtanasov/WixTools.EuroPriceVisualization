@@ -118,6 +118,7 @@ function convertCheckoutSummaryPrices() {
     '[data-hook="FoldableSummarySectionDataHook.total"]',
     '[data-hook="LineItemDataHooks.Price"]',
     '[data-hook="total-row-value"] span',
+    '[data-hook="filter-type-PRICE "] span',
     '[data-hook="payment-checkout-summary-plan-price"]'
   ]);
 }
