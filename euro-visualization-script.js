@@ -2,7 +2,7 @@ const RATE_EUR = 1.95583;
 const REGEX = /(?:лв\.?|BGN)(?:\s*|&nbsp;|\u00A0)?(\d+(?:[.,]\d{0,2})?)|(\d+(?:[.,]\d{0,2})?)|(\d(?: ['\u00A0,&nbsp;]\d)*(?:[.,]\d{2}))(?:\s*|&nbsp;|\u00A0)?(лв\.?|BGN)/g;
 const DIGIT_REGEX = /^\d+(?:[.,]\d+)?$/;
 
-function convertPriceText(text) {
+function convertPriceText(text, noDecimalPoint) {
   const match = [...text.matchAll(REGEX)];
   if (!match || match.length === 0) return;
 
@@ -22,6 +22,7 @@ function convertPriceText(text) {
   const number = parseFloat(numberStr.replace(',', '.'));
   if (isNaN(number)) return;
 
+  if(noDecimalPoint) return (number / RATE_EUR).toFixed(0);
   return (number / RATE_EUR).toFixed(2).replace('.', ',');
 }
 
@@ -39,13 +40,13 @@ function appendEUR(el, eur, contextColor, contextFontSize) {
   el.appendChild(eurSpan);
 }
 
-function convertWithInnerText(selectors) {
+function convertWithInnerText(selectors, noDecimalPoint) {
   selectors.forEach((selector) => {
     const elements = document.querySelectorAll(selector);
     elements.forEach((el) => {
       if (NotIncludesLeva(el)) return;
       if (el.innerText.includes("€")) return;
-      const eur = convertPriceText(el.innerText);
+      const eur = convertPriceText(el.innerText,noDecimalPoint);
       if (eur) el.innerText += `/ ${eur} €`;
     });
   });
@@ -136,7 +137,7 @@ function convertThankYouPrices() {
 function convertFilter() {
   convertWithInnerText([
     '[data-hook="filter-type-PRICE "] span'
-  ]);
+  ], true);
   const forChange = document.querySelectorAll('[data-hook="filter-type-PRICE "] span');
   forChange.forEach((el) => {
     el.style.fontSize = '17px';
