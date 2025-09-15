@@ -46,6 +46,7 @@ function convertWithInnerText(selectors, noDecimalPoint) {
     elements.forEach((el) => {
       if (NotIncludesLeva(el)) return;
       if (el.innerText.includes("€")) return;
+      if (el.innerHTML.includes("€")) return;
       const eur = convertPriceText(el.innerText,noDecimalPoint);
       if (eur) el.innerText += `/ ${eur} €`;
     });
@@ -58,6 +59,7 @@ function convertWithAppending(selectors) {
     elements.forEach((el) => {
       if (NotIncludesLeva(el)) return;
       if (el.querySelector(".eur-price")) return;
+      if (el.innerHTML.includes("€")) return;
       const eur = convertPriceText(el.innerText);
       if (eur) appendEUR(el, eur, el.style.color, el.style.fontSize);
     });
