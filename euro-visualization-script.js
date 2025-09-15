@@ -108,7 +108,7 @@ function convertCartTotals() {
 function convertSideCartPrices() {
   convertWithAppending([
     '[data-hook="CartItemDataHook.price"]',
-    '[data-hook="CartItemDataHook.totalPrice"] div',
+    '[data-hook="CartItemDataHook.totalPrice"]',
     '[data-hook="Footer.subtotalValue"]',
     '[data-hook="cart-widget-item-price"]',
     '[data-hook="cart-widget-total"]'
