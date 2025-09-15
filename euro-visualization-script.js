@@ -61,7 +61,7 @@ function convertWithAppending(selectors) {
       if (el.querySelector(".eur-price")) return;
       if (el.innerHTML.includes("€")) return;
       const eur = convertPriceText(el.innerText);
-      if (eur) appendEUR(el, eur, el.style.color, el.style.fontSize);
+      if (eur) { appendEUR(el, eur, el.style.color, el.style.fontSize); return;}
     });
   });
 }
