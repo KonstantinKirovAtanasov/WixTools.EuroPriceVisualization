@@ -108,13 +108,17 @@ function convertCartTotals() {
 function convertSideCartPrices() {
   convertWithAppending([
     '[data-hook="CartItemDataHook.price"]',
-    '[data-hook="CartItemDataHook.totalPrice"]',
     '[data-hook="Footer.subtotalValue"]',
     '[data-hook="cart-widget-item-price"]',
     '[data-hook="cart-widget-total"]'
   ]);
 }
-
+// Side cart
+function convertSideCartPrices() {
+  convertWithInnerText([
+    '[data-hook="CartItemDataHook.totalPrice"] div div',
+  ]);
+}
 // Checkout & Order Summary
 function convertCheckoutSummaryPrices() {
   convertWithInnerText([
