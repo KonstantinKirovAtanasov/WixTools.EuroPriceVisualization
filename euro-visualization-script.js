@@ -86,7 +86,7 @@ function convertProductPagePrice() {
   const richTextDivs = document.querySelectorAll('div[data-testid="richTextElement"]');
   richTextDivs.forEach((div) => {
     const p = div.querySelector("p, h2, span, div");
-    if (!p || NotIncludesLeva(p) || p.querySelector(".eur-price")) return;
+    if (!p || NotIncludesLeva(p) || p.querySelector(".eur-price") || el.innerHTML.includes("€")) return;
     const eur = convertPriceText(p.innerText);
     if (eur) appendEUR(p, eur);
   });
