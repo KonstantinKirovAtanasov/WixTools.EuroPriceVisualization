@@ -218,7 +218,7 @@ function convertCheckoutSummaryPrices() {
 }
 // Special replace
 function converWixReplacement(){
-    appendEUR([
+    convertWithAppending([
     '[data-hook="ticket"]',
     '[data-hook="invoice-breakdown"]',
   ]);
