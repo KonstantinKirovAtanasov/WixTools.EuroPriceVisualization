@@ -138,6 +138,7 @@ function NotIncludesLeva(el) {
   return !el.innerText.includes("лв")
     && !el.innerText.startsWith("BGN")
     && !el.innerText.endsWith("BGN")
+    && !el.innerText.includes("BGN")
     && !el.innerText.endsWith("Bulgarian leva")
 }
 
