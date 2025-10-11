@@ -268,7 +268,7 @@ function convertMembers() {
     '[data-hook="slot-plan-type"]',
     '[data-hook="sr-only-details-price"]',
     '[data-hook="details-price"]',
-    '[data-hook="service-info-root"]'
+    '[data-hook="service-info-root"] div'
   ]);
 }
 
