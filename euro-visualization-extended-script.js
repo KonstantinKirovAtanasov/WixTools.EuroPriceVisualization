@@ -87,7 +87,7 @@ function convertDigitsOnlyWithAppending(selectors) {
       if (el.querySelector(".eur-price")) return;
       if (el.innerHTML.includes("€")) return;
       if (el.innerHTML.includes("EUR")) return;
-      const eur = convertPriceText(el.innerText);
+      const eur = convertDecimalOnlyPriceText(el.innerText);
       if (eur) { appendEUR(el, eur, el.style.color, el.style.fontSize); return;}
     });
   });
