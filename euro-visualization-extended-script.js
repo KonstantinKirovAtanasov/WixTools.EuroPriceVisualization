@@ -199,6 +199,8 @@ function convertCheckoutSummaryPrices() {
     '[data-hook="visitor-page__main"] div div',
     '[data-hook="LineItemDataHooks.Price"]',
     '[data-hook="total-row-value"] span',
+    '[data-hook="ticket"]',
+    '[data-hook="invoice-breakdown"]',
     '[data-hook="payment-checkout-summary-plan-price"]'
   ]);
 }
