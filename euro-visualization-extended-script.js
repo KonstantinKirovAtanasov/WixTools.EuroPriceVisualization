@@ -1,23 +1,30 @@
 const RATE_EUR = 1.95583;
-const REGEX = /(?:лв\.?|BGN)(?:\s*|&nbsp;|\u00A0)?(\d+(?:[.,]\d{0,2})?)|(\d+(?:[.,]\d{0,2})?)|(\d(?: ['\u00A0,&nbsp;]\d)*(?:[.,]\d{2}))(?:\s*|&nbsp;|\u00A0)?(лв\.?|BGN)/g;
+const REGEX = /(?:лв\.?|BGN)(?:\s*|&nbsp;|\u00A0)?(\d+(?:[.,]\d{0,2})?)|(\d+(?:[.,]\d{0,2})?)|(\d(?: ['\u00A0,&nbsp;]\d)*(?:[.,]\d{2}))(?:\s*|&nbsp;|\u00A0)?(лв\.?|BGN|Bulgarian leva)/g;
 const DIGIT_REGEX = /^\d+(?:[.,]\d+)?$/;
+const CURRENCIES_REGEX = /^(лв\.?|BGN)$/g;
 
 function convertDecimalOnlyPriceText(text, noDecimalPoint) {
-
   const match = [...text.matchAll(REGEX)];
-  let numberStr = match[0];
+  let numberStr = match[0][0] || match[0];
+  if (!numberStr) return;
 
   const number = parseFloat(numberStr.replace(',', '.'));
   if (isNaN(number)) return;
 
-  if(noDecimalPoint) return (number / RATE_EUR).toFixed(0);
+  if (noDecimalPoint) return (number / RATE_EUR).toFixed(0);
   return (number / RATE_EUR).toFixed(2).replace('.', ',');
+}
+
+function convertCurrencyText(text) {
+  const match = [...text.matchAll(CURRENCIES_REGEX)];
+  let BGN = match[0][0] || match[0];
+  if (!BGN) return;
+  return 'EUR';
 }
 
 function convertPriceText(text, noDecimalPoint) {
   const match = [...text.matchAll(REGEX)];
   if (!match || match.length === 0) return;
-
   let numberStr = null;
   if (match.length === 1) {
     if (match[0][0] && match[0][0].match(DIGIT_REGEX)) numberStr = match[0][0];
@@ -29,12 +36,13 @@ function convertPriceText(text, noDecimalPoint) {
     else if (match[0][1] && match[1][0] && match[1][0].match(DIGIT_REGEX))
       numberStr = match[0][1].replace(',', '').replace(' ', '') + match[1][0];
   }
+
   if (!numberStr) return;
 
   const number = parseFloat(numberStr.replace(',', '.'));
   if (isNaN(number)) return;
 
-  if(noDecimalPoint) return (number / RATE_EUR).toFixed(0);
+  if (noDecimalPoint) return (number / RATE_EUR).toFixed(0);
   return (number / RATE_EUR).toFixed(2).replace('.', ',');
 }
 
@@ -44,7 +52,35 @@ function appendEUR(el, eur, contextColor, contextFontSize) {
   eurSpan.className = "eur-price";
   eurSpan.textContent = `/ ${eur} €`;
   eurSpan.style.cssText = `
-    font-size: ${contextFontSize|| "1em"};
+    font-size: ${contextFontSize || "1em"};
+    color: ${contextColor || "FFFFFF"};
+    margin-left: 6px;
+    white-space: nowrap;
+  `;
+  el.appendChild(eurSpan);
+}
+
+function appendEURDigitOnly(el, eur, contextColor, contextFontSize) {
+  if (el.querySelector(".eur-price")) return;
+  const eurSpan = document.createElement("span");
+  eurSpan.className = "eur-price";
+  eurSpan.textContent = `/ ${eur}`;
+  eurSpan.style.cssText = `
+    font-size: ${contextFontSize || "1em"};
+    color: ${contextColor || "FFFFFF"};
+    margin-left: 6px;
+    white-space: nowrap;
+  `;
+  el.appendChild(eurSpan);
+}
+
+function appendCurrencyEURDigitOnly(el, currency, contextColor, contextFontSize) {
+  if (el.querySelector(".eur-price")) return;
+  const eurSpan = document.createElement("span");
+  eurSpan.className = "eur-price";
+  eurSpan.textContent = `/ ${currency}`;
+  eurSpan.style.cssText = `
+    font-size: ${contextFontSize || "1em"};
     color: ${contextColor || "FFFFFF"};
     margin-left: 6px;
     white-space: nowrap;
@@ -59,7 +95,7 @@ function convertWithInnerText(selectors, noDecimalPoint) {
       if (NotIncludesLeva(el)) return;
       if (el.innerText.includes("€")) return;
       if (el.innerHTML.includes("€")) return;
-      const eur = convertPriceText(el.innerText,noDecimalPoint);
+      const eur = convertPriceText(el.innerText, noDecimalPoint);
       if (eur) el.innerText += `/ ${eur} €`;
     });
   });
@@ -73,22 +109,27 @@ function convertWithAppending(selectors) {
       if (el.querySelector(".eur-price")) return;
       if (el.innerHTML.includes("€")) return;
       const eur = convertPriceText(el.innerText);
-      if (eur) { appendEUR(el, eur, el.style.color, el.style.fontSize); return;}
+      if (eur) { appendEUR(el, eur, el.style.color, el.style.fontSize); return; }
     });
   });
 }
 
+function convertCurrencyWithAppending(selectors) {
+  selectors.forEach((selector) => {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach((el) => {
+      const eur = convertCurrencyText(el.innerText);
+      if (eur) { appendCurrencyEURDigitOnly(el, eur, el.style.color, el.style.fontSize); return; }
+    });
+  });
+}
 
 function convertDigitsOnlyWithAppending(selectors) {
   selectors.forEach((selector) => {
     const elements = document.querySelectorAll(selector);
     elements.forEach((el) => {
-      if (NotIncludesLeva(el)) return;
-      if (el.querySelector(".eur-price")) return;
-      if (el.innerHTML.includes("€")) return;
-      if (el.innerHTML.includes("EUR")) return;
       const eur = convertDecimalOnlyPriceText(el.innerText);
-      if (eur) { appendEUR(el, eur, el.style.color, el.style.fontSize); return;}
+      if (eur) { appendEURDigitOnly(el, eur, el.style.color, el.style.fontSize); return; }
     });
   });
 }
@@ -97,6 +138,7 @@ function NotIncludesLeva(el) {
   return !el.innerText.includes("лв")
     && !el.innerText.startsWith("BGN")
     && !el.innerText.endsWith("BGN")
+    && !el.innerText.endsWith("Bulgarian leva")
 }
 
 // Category and product listings
@@ -115,7 +157,7 @@ function convertProductPagePrice() {
     const p = div.querySelector("p, h2, span, div");
     if (!p || NotIncludesLeva(p) || p.querySelector(".eur-price") || p.innerHTML.includes("€")) return;
     const eur = convertPriceText(p.innerText);
-    if (eur){ appendEUR(p, eur); return; }
+    if (eur) { appendEUR(p, eur); return; }
   });
 }
 
@@ -153,6 +195,8 @@ function convertSideCartPrices() {
 function convertCheckoutSummaryPrices() {
   convertWithInnerText([
     '[data-hook="FoldableSummarySectionDataHook.total"]',
+    '[data-hook="challenges-payment-page"] div div',
+    '[data-hook="visitor-page__main"] div div',
     '[data-hook="LineItemDataHooks.Price"]',
     '[data-hook="total-row-value"] span',
     '[data-hook="payment-checkout-summary-plan-price"]'
@@ -182,7 +226,7 @@ function convertFilter() {
 
 // Shipping
 function convertShipping() {
-  convertWithAppending([
+  convertDigitsOnlyWithAppending([
     '[data-hook="dropdown-option"]'
   ]);
 }
@@ -196,13 +240,22 @@ function convertMembers() {
     '[data-hook="total"]',
     '[data-hook="product-total"]',
     '[data-hook="product-price"]',
-    '[data-hook="value"]'
+    '[data-hook="value"]',
+    '[data-hook="price"]',
+    //Additional
+    '[class="RzBUQl"]',
+    '[data-hook="slot-plan-type"]',
+    '[data-hook="sr-only-details-price"]',
+    '[data-hook="details-price"]'
   ]);
 }
 
 // Convert Extended members
 function convertExtendedMembers() {
-  convertDecimalOnlyPriceText([
+  convertCurrencyWithAppending([
+    '[data-hook="price-currency"]',
+  ]);
+  convertDigitsOnlyWithAppending([
     '[data-hook="price-amount"]',
   ]);
 }
@@ -216,6 +269,7 @@ function convertAllPrices() {
   convertCheckoutSummaryPrices();
   convertThankYouPrices();
   convertFilter();
+  convertMembers();
 }
 
 
@@ -223,16 +277,7 @@ window.addEventListener("load", () => {
   setTimeout(() => {
     const interval = setInterval(() => {
       convertAllPrices();
+      convertExtendedMembers();
     }, 200);
   }, 150);
 });
-
-/* 
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    convertShipping();
-    convertFilter();
-    setInterval(convertAllPrices, 2000);
-  }, 3000);
-});
-*/
