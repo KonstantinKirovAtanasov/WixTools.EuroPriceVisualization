@@ -49,7 +49,7 @@ function convertPriceText(text, noDecimalPoint) {
 function appendEUR(el, eur, contextColor, contextFontSize) {
   if (el.querySelector(".eur-price") || el.innerHTML.includes("€")) return;
   const eurSpan = document.createElement("span");
-  eurSpan.className = "eur-price";
+  eurSpan.className = "eur-price " + el.className;
   eurSpan.textContent = `/ ${eur} €`;
   eurSpan.style.cssText = `
     font-size: ${contextFontSize || "1em"};
@@ -218,7 +218,7 @@ function convertCheckoutSummaryPrices() {
 }
 // Special replace
 function converWixReplacement(){
-    convertWithInnerTextWithReplace([
+    appendEUR([
     '[data-hook="ticket"]',
     '[data-hook="invoice-breakdown"]',
   ]);
