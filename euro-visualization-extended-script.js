@@ -101,6 +101,19 @@ function convertWithInnerText(selectors, noDecimalPoint) {
   });
 }
 
+function convertWithInnerTextWithReplace(selectors, noDecimalPoint) {
+  selectors.forEach((selector) => {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach((el) => {
+      if (NotIncludesLeva(el)) return;
+      if (el.innerText.includes("€")) return;
+      if (el.innerHTML.includes("€")) return;
+      const eur = convertPriceText(el.innerText, noDecimalPoint);
+      if (eur) el.innerText.replace(REGEX, `/ ${eur} €`);
+    });
+  });
+}
+
 function convertWithAppending(selectors) {
   selectors.forEach((selector) => {
     const elements = document.querySelectorAll(selector);
@@ -200,9 +213,14 @@ function convertCheckoutSummaryPrices() {
     '[data-hook="visitor-page__main"] div div',
     '[data-hook="LineItemDataHooks.Price"]',
     '[data-hook="total-row-value"] span',
+    '[data-hook="payment-checkout-summary-plan-price"]'
+  ]);
+}
+// Special replace
+funcion converWixReplacement(){
+    convertWithInnerTextWithReplace([
     '[data-hook="ticket"]',
     '[data-hook="invoice-breakdown"]',
-    '[data-hook="payment-checkout-summary-plan-price"]'
   ]);
 }
 
@@ -273,6 +291,7 @@ function convertAllPrices() {
   convertThankYouPrices();
   convertFilter();
   convertMembers();
+  converWixReplacement();
 }
 
 
