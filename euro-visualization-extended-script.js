@@ -199,6 +199,14 @@ function convertMembers() {
     '[data-hook="value"]'
   ]);
 }
+
+// Convert Extended members
+function convertExtendedMembers() {
+  convertDecimalOnlyPriceText([
+    '[data-hook="price-amount"]',
+  ]);
+}
+
 // Convert all
 function convertAllPrices() {
   convertCategoryPrices();
