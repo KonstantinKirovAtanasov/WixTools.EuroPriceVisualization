@@ -217,7 +217,7 @@ function convertCheckoutSummaryPrices() {
   ]);
 }
 // Special replace
-funcion converWixReplacement(){
+function converWixReplacement(){
     convertWithInnerTextWithReplace([
     '[data-hook="ticket"]',
     '[data-hook="invoice-breakdown"]',
