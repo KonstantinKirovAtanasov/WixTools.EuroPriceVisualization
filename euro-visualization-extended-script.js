@@ -2,6 +2,18 @@ const RATE_EUR = 1.95583;
 const REGEX = /(?:лв\.?|BGN)(?:\s*|&nbsp;|\u00A0)?(\d+(?:[.,]\d{0,2})?)|(\d+(?:[.,]\d{0,2})?)|(\d(?: ['\u00A0,&nbsp;]\d)*(?:[.,]\d{2}))(?:\s*|&nbsp;|\u00A0)?(лв\.?|BGN)/g;
 const DIGIT_REGEX = /^\d+(?:[.,]\d+)?$/;
 
+function convertDecimalOnlyPriceText(text, noDecimalPoint) {
+
+  const match = [...text.matchAll(REGEX)];
+  let numberStr = match[0];
+
+  const number = parseFloat(numberStr.replace(',', '.'));
+  if (isNaN(number)) return;
+
+  if(noDecimalPoint) return (number / RATE_EUR).toFixed(0);
+  return (number / RATE_EUR).toFixed(2).replace('.', ',');
+}
+
 function convertPriceText(text, noDecimalPoint) {
   const match = [...text.matchAll(REGEX)];
   if (!match || match.length === 0) return;
@@ -60,6 +72,21 @@ function convertWithAppending(selectors) {
       if (NotIncludesLeva(el)) return;
       if (el.querySelector(".eur-price")) return;
       if (el.innerHTML.includes("€")) return;
+      const eur = convertPriceText(el.innerText);
+      if (eur) { appendEUR(el, eur, el.style.color, el.style.fontSize); return;}
+    });
+  });
+}
+
+
+function convertDigitsOnlyWithAppending(selectors) {
+  selectors.forEach((selector) => {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach((el) => {
+      if (NotIncludesLeva(el)) return;
+      if (el.querySelector(".eur-price")) return;
+      if (el.innerHTML.includes("€")) return;
+      if (el.innerHTML.includes("EUR")) return;
       const eur = convertPriceText(el.innerText);
       if (eur) { appendEUR(el, eur, el.style.color, el.style.fontSize); return;}
     });
