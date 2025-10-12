@@ -268,7 +268,7 @@ function convertMembers() {
     '[data-hook="slot-plan-type"]',
     '[data-hook="sr-only-details-price"]',
     '[data-hook="details-price"]',
-    //'[data-hook="service-info-root"] div'
+    '[data-hook="service-info-root"] div'
   ]);
 }
 
@@ -303,7 +303,4 @@ window.addEventListener("load", () => {
       convertExtendedMembers();
     }, 200);
   }, 150);
-  convertWithInnerText([    
-    '[data-hook="service-info-root"] div'
-  ]);
 });
