@@ -209,10 +209,14 @@ window.addEventListener("load", () => {
   function deleteElements(selectors) {
     console.log(selectors);
     selectors.forEach((selector) => {
-      document.querySelectorAll(selector).forEach((el) => el.remove());
+      document.querySelectorAll(selector).forEach((el) =>{ console.log(el); el.remove();});
     });
   }
 
+  function isMobileScreen() {
+      return window.matchMedia("(max-width: 768px)").matches;
+  }
+  
   function attachDeleteOnContinue() {
     const btn = document.querySelector('[data-hook="place-order-button"]');
     console.log(btn);
@@ -221,7 +225,8 @@ window.addEventListener("load", () => {
     if (btn.dataset.listenerAttached) return;
     btn.dataset.listenerAttached = "true";
 
-    btn.addEventListener("click", function () {
+    if(isMobileScreen()) deleteElements([".eur-price"]);
+    else btn.addEventListener("click", function () {
       deleteElements([
         ".eur-price",
       ]);
