@@ -206,12 +206,23 @@ window.addEventListener("load", () => {
 
 // Delete elements added on click of the continue button
 // --- DELETE ELEMENTS ON CONTINUE BUTTON CLICK (VANILLA JS) ---
-  function deleteElements(selectors) {
-    console.log(selectors);
-    selectors.forEach((selector) => {
-      document.querySelectorAll(selector).forEach((el) =>{ console.log(el); el.remove();});
-    });
+  function safeRemove(el) {
+  if (!el) return;
+  if (typeof el.remove === "function") {
+    el.remove();
+  } else if (el.parentNode) {
+    el.parentNode.removeChild(el);
   }
+}
+
+function deleteElements(selectors) {
+  selectors.forEach(function (selector) {
+    var nodes = document.querySelectorAll(selector);
+    nodes.forEach
+      ? nodes.forEach(function (el) {console.log(el); safeRemove(el); })
+      : Array.prototype.forEach.call(nodes, function (el) {console.log(el); safeRemove(el); });
+  });
+}
 
   function isMobileScreen() {
       return window.matchMedia("(max-width: 768px)").matches;
@@ -219,14 +230,14 @@ window.addEventListener("load", () => {
   
   function attachDeleteOnContinue() {
     const btn = document.querySelector('[data-hook="place-order-button"]');
-    console.log(btn);
     if (!btn) return;
+    console.log(btn);
+    if(isMobileScreen()) deleteElements([".eur-price"]);
 
     if (btn.dataset.listenerAttached) return;
     btn.dataset.listenerAttached = "true";
 
-    if(isMobileScreen()) deleteElements([".eur-price"]);
-    else btn.addEventListener("click", function () {
+    if(!isMobileScreen()) btn.addEventListener("click", function () {
       deleteElements([
         ".eur-price",
       ]);
