@@ -104,6 +104,13 @@ function convertCartTotals() {
   ]);
 }
 
+// Checkout
+function convertCheckout() {
+  convertWithAppending([
+    '[data-hook="total-row-value"] span'
+  ]);
+}
+
 // Side cart
 function convertSideCartPrices() {
   convertWithAppending([
@@ -127,7 +134,6 @@ function convertCheckoutSummaryPrices() {
   convertWithInnerText([
     '[data-hook="FoldableSummarySectionDataHook.total"]',
     '[data-hook="LineItemDataHooks.Price"]',
-    '[data-hook="total-row-value"] span',
     '[data-hook="payment-checkout-summary-plan-price"]'
   ]);
 }
@@ -181,6 +187,7 @@ function convertAllPrices() {
   convertCheckoutSummaryPrices();
   convertThankYouPrices();
   convertFilter();
+  convertCheckout();
 }
 
 
