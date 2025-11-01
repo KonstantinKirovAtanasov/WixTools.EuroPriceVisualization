@@ -190,7 +190,6 @@ function convertAllPrices() {
   convertCheckout();
 }
 
-
 window.addEventListener("load", () => {
   setTimeout(() => {
     const interval = setInterval(() => {
@@ -199,12 +198,33 @@ window.addEventListener("load", () => {
   }, 150);
 });
 
-/* 
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    convertShipping();
-    convertFilter();
-    setInterval(convertAllPrices, 2000);
-  }, 3000);
+// Delete elements added on click of the continue button
+// --- DELETE ELEMENTS ON CONTINUE BUTTON CLICK (VANILLA JS) ---
+
+document.addEventListener("DOMContentLoaded", function () {
+  function deleteElements(selectors) {
+    selectors.forEach((selector) => {
+      document.querySelectorAll(selector).forEach((el) => el.remove());
+    });
+  }
+
+  function attachDeleteOnContinue() {
+    const btn = document.querySelector('[data-hook="FormDetailsButtons.continue"]');
+    if (!btn) return;
+
+    if (btn.dataset.listenerAttached) return;
+    btn.dataset.listenerAttached = "true";
+
+    btn.addEventListener("click", function () {
+      deleteElements([
+        ".eur-price",
+      ]);
+
+      console.log("Selected elements deleted after continue click.");
+    });
+  }
+
+  const observer = new MutationObserver(attachDeleteOnContinue);
+  observer.observe(document.body, { childList: true, subtree: true });
+  attachDeleteOnContinue();
 });
-*/
