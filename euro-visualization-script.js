@@ -107,8 +107,8 @@ function convertCartTotals() {
 // Checkout
 function convertCheckout() {
   convertWithAppending([
-    '[data-hook="total-row-value"] span'
-    '[data-hook="total-row-value"]',
+    '[data-hook="total-row-value"] span',
+    '[data-hook="total-row-value"]'
   ]);
 }
 
