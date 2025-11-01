@@ -231,17 +231,12 @@ function deleteElements(selectors) {
   function attachDeleteOnContinue() {
     const btn = document.querySelector('[data-hook="place-order-button"]');
     if (!btn) return;
-    if(isMobileScreen()) deleteElements([".eur-price"]);
 
     if (btn.dataset.listenerAttached) return;
     btn.dataset.listenerAttached = "true";
 
-    console.log(btn);
-    if(!isMobileScreen()) btn.addEventListener("click", function () {
-      deleteElements([
-        ".eur-price",
-      ]);
-
+    console.log(btn); btn.addEventListener("click", function () {
+      if(isMobileScreen()) deleteElements([".eur-price"]);
       console.log("Selected elements deleted after continue click.");
     });
   }
