@@ -109,7 +109,8 @@ function convertCheckout() {
   convertWithAppending([
     '[data-hook="total-row-value"] span',
     '[data-hook="total-row-value"]',
-    '[data-hook="LineItemDataHooks.Price"]'
+    '[data-hook="LineItemDataHooks.Price"]',
+    '[data-hook="FoldableSummarySectionDataHook.total"]'
   ]);
 }
 
@@ -134,7 +135,6 @@ function convertSideCartPrices() {
 // Checkout & Order Summary
 function convertCheckoutSummaryPrices() {
   convertWithInnerText([
-    '[data-hook="FoldableSummarySectionDataHook.total"]',
     '[data-hook="payment-checkout-summary-plan-price"]'
   ]);
 }
@@ -231,12 +231,12 @@ function deleteElements(selectors) {
   function attachDeleteOnContinue() {
     const btn = document.querySelector('[data-hook="place-order-button"]');
     if (!btn) return;
-    console.log(btn);
     if(isMobileScreen()) deleteElements([".eur-price"]);
 
     if (btn.dataset.listenerAttached) return;
     btn.dataset.listenerAttached = "true";
 
+    console.log(btn);
     if(!isMobileScreen()) btn.addEventListener("click", function () {
       deleteElements([
         ".eur-price",
