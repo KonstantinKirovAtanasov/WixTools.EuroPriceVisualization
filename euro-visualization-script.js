@@ -196,12 +196,16 @@ window.addEventListener("load", () => {
       convertAllPrices();
     }, 200);
   }, 150);
-});
+
+  
+  setTimeout(() => {
+    const interval = setInterval(() => {
+      attachDeleteOnContinue();
+    }, 1200);
+  }, 1500);
 
 // Delete elements added on click of the continue button
 // --- DELETE ELEMENTS ON CONTINUE BUTTON CLICK (VANILLA JS) ---
-
-document.addEventListener("DOMContentLoaded", function () {
   function deleteElements(selectors) {
     console.log(selectors);
     selectors.forEach((selector) => {
