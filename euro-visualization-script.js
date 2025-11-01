@@ -108,6 +108,7 @@ function convertCartTotals() {
 function convertCheckout() {
   convertWithAppending([
     '[data-hook="total-row-value"] span'
+    '[data-hook="total-row-value"]',
   ]);
 }
 
@@ -143,7 +144,6 @@ function convertThankYouPrices() {
   convertWithInnerText([
     '[data-hook="ProductLineItemDataHook.totalPrice"]',
     '[data-hook="subtotal-row-value"]',
-    '[data-hook="total-row-value"]',
     '[data-hook="challenge-pricing"]'
   ]);
 }
