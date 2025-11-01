@@ -108,7 +108,8 @@ function convertCartTotals() {
 function convertCheckout() {
   convertWithAppending([
     '[data-hook="total-row-value"] span',
-    '[data-hook="total-row-value"]'
+    '[data-hook="total-row-value"]',
+    '[data-hook="LineItemDataHooks.Price"]'
   ]);
 }
 
@@ -134,7 +135,6 @@ function convertSideCartPrices() {
 function convertCheckoutSummaryPrices() {
   convertWithInnerText([
     '[data-hook="FoldableSummarySectionDataHook.total"]',
-    '[data-hook="LineItemDataHooks.Price"]',
     '[data-hook="payment-checkout-summary-plan-price"]'
   ]);
 }
