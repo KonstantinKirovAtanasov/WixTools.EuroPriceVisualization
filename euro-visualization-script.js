@@ -203,13 +203,15 @@ window.addEventListener("load", () => {
 
 document.addEventListener("DOMContentLoaded", function () {
   function deleteElements(selectors) {
+    console.log(selectors);
     selectors.forEach((selector) => {
       document.querySelectorAll(selector).forEach((el) => el.remove());
     });
   }
 
   function attachDeleteOnContinue() {
-    const btn = document.querySelector('[data-hook="FormDetailsButtons.continue"]');
+    const btn = document.querySelector('[data-hook="place-order-button"]');
+    console.log(btn);
     if (!btn) return;
 
     if (btn.dataset.listenerAttached) return;
