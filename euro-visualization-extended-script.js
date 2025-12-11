@@ -302,7 +302,7 @@
       '[data-hook="details-root"]',
       '[data-hook="subtotal"] span',
       '[data-hook="challenges-payment-page"] div div',
-      '[data-hook="visitor-page__main"] div div',
+      '[data-hook="ONLY_ONE_TIME_PAYMENT_PRICING"] div',
     ]);
     //convertWithAppendingBRLine([
     //'[data-hook="subtotal"]',
