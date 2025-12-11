@@ -228,7 +228,7 @@
     convertWithInnerText([
       '[data-hook="CartItemDataHook.totalPrice"] div div',
       '[data-hook="Footer.subtotalValue"]',
-      '[data-wix-line-item-price="CartItemDataHook.price"]'
+      '[data-hook="Footer.estimatedTotalValue"]',
     ]);
   }
   // Checkout & Order Summary
