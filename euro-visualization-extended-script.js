@@ -18,6 +18,7 @@
 
   function convertCurrencyText(text) {
     const match = [...text.matchAll(CURRENCIES_REGEX)];
+    if (!match || match.length === 0) return;
     let BGN = match[0][0] || match[0];
     if (!BGN) return;
     return 'EUR';
@@ -89,6 +90,15 @@
     el.appendChild(eurSpan);
   }
 
+  // New helper: appends the EUR amount on a new row by inserting <br> and then the EUR span.
+  function appendEURNewLine(el, eur, contextColor, contextFontSize) {
+    if (el.querySelector(".eur-price") || el.innerHTML.includes("€")) return;
+
+    const br = document.createElement("br");
+    el.appendChild(br);
+    el.innerHTML += `${eur} €`;
+  }
+
   function convertWithInnerText(selectors, noDecimalPoint) {
     selectors.forEach((selector) => {
       const elements = document.querySelectorAll(selector);
@@ -117,7 +127,6 @@
 
   function convertWithAppending(selectors) {
     selectors.forEach((selector) => {
-      console.log("Processing selector: ", selector);
       const elements = document.querySelectorAll(selector);
       elements.forEach((el) => {
         if (NotIncludesLeva(el)) return;
@@ -129,10 +138,25 @@
     });
   }
 
+  // New workflow: same logic as convertWithAppending(selectors), but appends the EUR value on a new line.
+  function convertWithAppendingBRLine(selectors) {
+    selectors.forEach((selector) => {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach((el) => {
+        if (NotIncludesLeva(el)) return;
+        if (el.querySelector(".eur-price")) return;
+        if (el.innerHTML.includes("€")) return;
+        const eur = convertPriceText(el.innerText);
+        if (eur) { appendEURNewLine(el, eur, el.style.color, el.style.fontSize); return; }
+      });
+    });
+  }
+
   function convertCurrencyWithAppending(selectors) {
     selectors.forEach((selector) => {
       const elements = document.querySelectorAll(selector);
       elements.forEach((el) => {
+        if (!el || !el.innerText) return;
         const eur = convertCurrencyText(el.innerText);
         if (eur) { appendCurrencyEURDigitOnly(el, eur, el.style.color, el.style.fontSize); return; }
       });
@@ -258,7 +282,6 @@
   // Convert members page
   function convertMembers() {
     convertWithInnerText([
-      '[data-hook="subtotal"]',
       '[data-hook="shipping"]',
       '[data-hook="tax-0"]',
       '[data-hook="total"]',
@@ -277,7 +300,12 @@
     convertWithAppending([
       '[data-hook="service-info-root"] div',
       '[data-hook="ticket"] span',
-      '[data-hook="total-price"] span'
+      '[data-hook="total-price"] span',
+      //'[data-hook="subtotal"] span',
+    ]);
+    convertWithAppendingBRLine([
+      '[data-hook="subtotal"]',
+      '[data-hook="service-info-root"] div',
     ]);
   }
 
