@@ -235,8 +235,6 @@
   function convertCheckoutSummaryPrices() {
     convertWithInnerText([
       '[data-hook="FoldableSummarySectionDataHook.total"]',
-      '[data-hook="challenges-payment-page"] div div',
-      '[data-hook="visitor-page__main"] div div',
       '[data-hook="LineItemDataHooks.Price"]',
       '[data-hook="total-row-value"] span',
       '[data-hook="payment-checkout-summary-plan-price"]'
@@ -247,7 +245,7 @@
     convertWithAppending([
       //'[data-hook="ticket"]',
       //'[data-hook="invoice-breakdown"]',
-      //'[data-hook="price-item-description"]'
+      '[data-hook="price-item-description"]'
     ]);
   }
 
@@ -303,6 +301,8 @@
       '[data-hook="total-price"] span',
       '[data-hook="details-root"]',
       '[data-hook="subtotal"] span',
+      '[data-hook="challenges-payment-page"] div div',
+      '[data-hook="visitor-page__main"] div div',
     ]);
     //convertWithAppendingBRLine([
     //'[data-hook="subtotal"]',
