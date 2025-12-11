@@ -301,12 +301,13 @@
       //'[data-hook="service-info-root"] div',
       '[data-hook="ticket"] span',
       '[data-hook="total-price"] span',
-      //'[data-hook="subtotal"] span',
+      '[data-hook="details-root"] p',
+      '[data-hook="subtotal"] span',
     ]);
-    convertWithAppendingBRLine([
-      '[data-hook="subtotal"]',
-      '[data-hook="service-info-root"] div',
-    ]);
+    //convertWithAppendingBRLine([
+    //'[data-hook="subtotal"]',
+    //'[data-hook="service-info-root"] div',
+    //]);
   }
 
   // Convert Extended members
