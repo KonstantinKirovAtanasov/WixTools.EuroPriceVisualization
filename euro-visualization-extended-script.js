@@ -221,6 +221,7 @@ function converWixReplacement(){
     convertWithAppending([
     '[data-hook="ticket"]',
     '[data-hook="invoice-breakdown"]',
+    '[data-hook="payment-total-price"]'
   ]);
 }
 
