@@ -294,11 +294,11 @@
       '[data-hook="slot-plan-type"]',
       '[data-hook="sr-only-details-price"]',
       '[data-hook="details-price"]',
-      '[data-hook="service-info-root"] div',
+      //'[data-hook="service-info-root"] div',
       '[data-hook="wix-fee"] span',
     ]);
     convertWithAppending([
-      '[data-hook="service-info-root"] div',
+      //'[data-hook="service-info-root"] div',
       '[data-hook="ticket"] span',
       '[data-hook="total-price"] span',
       //'[data-hook="subtotal"] span',
