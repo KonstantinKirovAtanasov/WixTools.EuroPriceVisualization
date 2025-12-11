@@ -301,7 +301,7 @@
       //'[data-hook="service-info-root"] div',
       '[data-hook="ticket"] span',
       '[data-hook="total-price"] span',
-      '[data-hook="details-root"] p',
+      '[data-hook="details-root"]',
       '[data-hook="subtotal"] span',
     ]);
     //convertWithAppendingBRLine([
