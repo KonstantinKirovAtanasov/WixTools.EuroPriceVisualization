@@ -229,6 +229,8 @@
       '[data-hook="CartItemDataHook.totalPrice"] div div',
       '[data-hook="Footer.subtotalValue"]',
       '[data-hook="Footer.estimatedTotalValue"]',
+      '[data-wix-cart-total-price="Total.Value"]',
+      '[data-wix-line-item-price="CartItemDataHook.price"]'
     ]);
   }
   // Checkout & Order Summary
