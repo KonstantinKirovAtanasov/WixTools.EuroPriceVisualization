@@ -294,6 +294,9 @@
       '[data-hook="details-price"]',
       //'[data-hook="service-info-root"] div',
       '[data-hook="wix-fee"] span',
+      '[data-hook="challenges-payment-page"] div div span',
+      '[data-hook="challenges-payment-page"] div div',
+      '[data-hook="payment-checkout-summary"] span'
     ]);
     convertWithAppending([
       //'[data-hook="service-info-root"] div',
@@ -301,7 +304,6 @@
       '[data-hook="total-price"] span',
       '[data-hook="details-root"]',
       '[data-hook="subtotal"] span',
-      '[data-hook="challenges-payment-page"] div div',
       '[data-hook="ONLY_ONE_TIME_PAYMENT_PRICING"] div',
     ]);
     //convertWithAppendingBRLine([
